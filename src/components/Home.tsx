@@ -1,17 +1,25 @@
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, useState } from 'react';
 import Footer from '../scenes/Footer';
 import InputForm from '../scenes/InputForm';
+import { SpinnerType } from '../utils/constants';
 import Loader from '../utils/Loader';
 
-const DisplayData = lazy(() => import('../scenes/BrowserData'));
+const BrowserData = lazy(() => import('../scenes/BrowserData'));
 
 const Home = () => {
+  const [onErrorMessage, setOnErrorMessage] = useState<string>('');
+  const [isResultsLoading, setResultsLoading] = useState<boolean>(false);
+
   return (
     <>
-      <section className="mt-5 px-5">
-        <InputForm />
+      <section className="mt-5 px-5 xl:px-48">
+        <InputForm
+          setonErrorMessage={setOnErrorMessage}
+          setResultsLoading={setResultsLoading}
+          isResultsLoading={isResultsLoading}
+        />
         <Suspense fallback={<Loader type={SpinnerType.PageLoader} />}>
-          <DisplayData />
+          <BrowserData />
         </Suspense>
       </section>
       <Footer />
