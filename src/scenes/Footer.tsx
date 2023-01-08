@@ -26,7 +26,7 @@ const Footer = (props: Props) => {
         </a>
       </div>
       <div>
-        <a href="https://github.com/anirket" target="_blank" rel="noreferrer">
+        <a href="https://github.com/anirket/doiuse" target="_blank" rel="noreferrer">
           {' '}
           <AiFillGithub className='text-xl' />
         </a>
