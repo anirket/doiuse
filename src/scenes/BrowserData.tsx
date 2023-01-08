@@ -25,10 +25,10 @@ const BrowserData = (props: Props) => {
     >
       {isBrowserDataExists ? (
         <div
-          className="text-xl pl-2 flex justify-between items-center pb-1"
+          className="text-xl pl-2 flex justify-between items-center pb-1 md:pb-2"
           onClick={expandConstituents}
         >
-          Detected Browsers{' '}
+          Detected Browsers (Min. versions)
           <span className="mr-2 md:hidden">
             <HiChevronUpDown />
           </span>
@@ -37,7 +37,9 @@ const BrowserData = (props: Props) => {
         <></>
       )}
       <ul
-        className={`flex flex-col md:flex-wrap ${isConstituentsExpanded ? '' : 'h-0 overflow-hidden'} ${isBrowserDataExists > 5 ? 'md:min-h-[250px]' : 'md:h-fit'}`}
+        className={`flex flex-col md:flex-wrap ${
+          isConstituentsExpanded ? '' : 'h-0 overflow-hidden'
+        } ${isBrowserDataExists > 5 ? 'md:min-h-[250px]' : 'md:h-fit'}`}
       >
         {Object.keys(browserListData).map((browser) => (
           <li key={browser} className="flex p-1 bg-gray-300 m-2 rounded-lg">
@@ -46,9 +48,11 @@ const BrowserData = (props: Props) => {
               src={`/assets/${mapBrowserstoImages[browser as Browserkeys]}`}
               alt=""
             />
-            <div className='flex justify-between w-full'>
+            <div className="flex justify-between w-full">
               {browser}
-              <span className='pr-2 text-green-800'>{browserListData[browser]}</span>
+              <span className="pr-2 text-green-800">
+                {browserListData[browser]}
+              </span>
             </div>
           </li>
         ))}

@@ -12,6 +12,8 @@ type Props = {
   setresponseData: Dispatch<
     SetStateAction<{
       browserListData: Record<string, string>;
+      compatibilityData: Record<string, any>;
+      userQuery: string,
     }>
   >;
   isResultsLoading: boolean;
@@ -54,6 +56,8 @@ const InputForm = (props: Props) => {
       setResultsLoading(false);
       return;
     }
+
+    // Verify BrowserList Data
     const getBrowserList = await validateBrowserlistString(
       inputData.browserList
     );
@@ -64,8 +68,10 @@ const InputForm = (props: Props) => {
     const identifyBrowsers = identifyBrowsersFromResponse(getBrowserList);
     setresponseData(prev => ({
       ...prev,
+      userQuery: inputData.searchQuery,
       browserListData: identifyBrowsers,
     }));
+    setResultsLoading(false);
   }, [inputData, setonErrorMessage, setResultsLoading, setresponseData]);
 
   return (
