@@ -61,7 +61,7 @@ const Home = () => {
           </div>
         ) : (
           <>
-            <Suspense fallback={<Loader type={SpinnerType.PageLoader} />}>
+            <Suspense fallback={<></>}>
               <BrowserData browserListData={responseData.browserListData} />
               <Compatibility {...responseData} />
             </Suspense>
