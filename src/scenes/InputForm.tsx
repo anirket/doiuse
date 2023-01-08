@@ -51,6 +51,7 @@ const InputForm = (props: Props) => {
 
   const onSearch = useCallback(async () => {
     setResultsLoading(true);
+    setonErrorMessage('');
     if (!inputData.browserList.length || !inputData.searchQuery.length) {
       setonErrorMessage('Please Enter all Inputs!');
       setResultsLoading(false);
@@ -63,6 +64,7 @@ const InputForm = (props: Props) => {
     );
     if (getBrowserList?.error) {
       setonErrorMessage(getBrowserList?.error || defaultErrorMessage);
+      setResultsLoading(false);
       return;
     }
     const identifyBrowsers = identifyBrowsersFromResponse(getBrowserList);
@@ -84,7 +86,7 @@ const InputForm = (props: Props) => {
           <input
             className="w-full h-8 border-[1.5px] outline-none focus:shadow-sm rounded-md p-2 focus:border-blue-300 focus:border-2 mt-2"
             name="browserList"
-            placeholder="Eg: last 2 Chrome versions"
+            placeholder="Eg: defaults"
             type="text"
             value={inputData.browserList}
             onChange={onInputChange}
@@ -100,7 +102,7 @@ const InputForm = (props: Props) => {
             type="text"
             value={inputData.searchQuery}
             onChange={onInputChange}
-            placeholder="Eg: Intl.NumberFormat"
+            placeholder="Eg: NumberFormat"
           />
         </section>
         <button

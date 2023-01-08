@@ -39,31 +39,37 @@ const CompatibleValue = (props: Props) => {
       supportWithRespectToValues,
     },
   } = props;
-  console.log(spec_url || mdn_url);
   return (
     <>
       {Object.keys(supportWithRespectToValues).length ? (
         <div className="bg-gray-200 md:m-10 m-4 p-2 w-[325px] rounded-lg">
           <span className="p-2 text-lg font-semibold flex items-center justify-between">
-            <span className=' w-72'>{name.length > 15 ? <>{name.substring(0, 25)}...</> : <>{name}</>}</span>
-            {(spec_url || mdn_url) && (
-              <a href={spec_url || mdn_url} target="_blank" rel="noreferrer">
+            <span className=" w-72">
+              {name.length > 15 ? <>{name.substring(0, 25)}...</> : <>{name}</>}
+            </span>
+            {(mdn_url || spec_url) && (
+              <a href={mdn_url || spec_url} target="_blank" rel="noreferrer">
                 {' '}
                 <VscLinkExternal />
               </a>
             )}
           </span>
-          <div className='extra-details'>
-            {deprecated && (<><span>Deprecated</span></>)}
+          <div className="extra-details">
+            {/* {deprecated && (
+              <>
+                <span>Deprecated</span>
+              </>
+            )} */}
           </div>
           <ul className="">
             {Object.keys(supportWithRespectToValues).map((supportKeys) => (
               <li
+                key={supportKeys}
                 className={`flex justify-between items-center p-1 rounded-lg ${
                   supportWithRespectToValues[supportKeys]
                     ? 'bg-green-300'
                     : 'bg-red-300'
-                } m-2 my-4 w-72`}
+                } m-2 my-3 w-72`}
               >
                 <span className="flex">
                   <img
@@ -75,6 +81,7 @@ const CompatibleValue = (props: Props) => {
                       ]
                     }`}
                     alt=""
+                    className="pr-1"
                   />
                   {
                     mapBrowserKeyToData[
@@ -83,11 +90,13 @@ const CompatibleValue = (props: Props) => {
                   }
                 </span>
 
-                {supportWithRespectToValues[supportKeys] ? (
-                  <TiTick />
-                ) : (
-                  <FaSkullCrossbones />
-                )}
+                <span className='pr-2'>
+                  {supportWithRespectToValues[supportKeys] ? (
+                    <TiTick />
+                  ) : (
+                    <FaSkullCrossbones />
+                  )}
+                </span>
               </li>
             ))}
           </ul>

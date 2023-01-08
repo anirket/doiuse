@@ -1,9 +1,11 @@
 import { Suspense, lazy, useState, useEffect, useCallback } from 'react';
+import { FaSkull } from 'react-icons/fa';
 import Footer from '../scenes/Footer';
 import InputForm from '../scenes/InputForm';
 import { getData } from '../services/service';
-import { SpinnerType } from '../utils/constants';
+import { defaultErrorMessage, SpinnerType, tipBrowserList } from '../utils/constants';
 import Loader from '../utils/Loader';
+import { AiFillBulb } from 'react-icons/ai';
 
 const BrowserData = lazy(() => import('../scenes/BrowserData'));
 const Compatibility = lazy(() => import('../scenes/Compatibility'));
@@ -14,7 +16,7 @@ const Home = () => {
   const [responseData, setresponseData] = useState<{
     browserListData: Record<string, string>;
     compatibilityData: Record<string, any>;
-    userQuery: string,
+    userQuery: string;
   }>({
     browserListData: {},
     compatibilityData: {},
@@ -22,12 +24,21 @@ const Home = () => {
   });
 
   const getInfo = useCallback(async () => {
+    try {
     const getDataList = await getData();
-    console.log(getDataList);
+    if(getDataList?.apierror) {
+      setOnErrorMessage(defaultErrorMessage);
+      return;
+    }
     setresponseData((prev) => ({
       ...prev,
       compatibilityData: getDataList,
     }));
+      
+    } catch (error) {
+      setOnErrorMessage(defaultErrorMessage);
+    }
+    
   }, []);
 
   useEffect(() => {
@@ -43,10 +54,46 @@ const Home = () => {
           setresponseData={setresponseData}
           isResultsLoading={isResultsLoading}
         />
-        <Suspense fallback={<Loader type={SpinnerType.PageLoader} />}>
-          <BrowserData browserListData={responseData.browserListData} />
-          <Compatibility {...responseData} />
-        </Suspense>
+        {onErrorMessage.length ? (
+          <div className="w-full flex justify-center pt-10 text-center flex-col items-center">
+            <FaSkull className='text-red-500' />
+            <span className="mt-5 text-red-400">{onErrorMessage}</span>
+          </div>
+        ) : (
+          <>
+            <Suspense fallback={<Loader type={SpinnerType.PageLoader} />}>
+              <BrowserData browserListData={responseData.browserListData} />
+              <Compatibility {...responseData} />
+            </Suspense>
+          </>
+        )}
+        {!responseData.userQuery.length ? (
+          <>
+            <div className="flex justify-center text-center mt-10">
+              Dont know what Browserlist is ? checkout &nbsp;{' '}
+              <a
+                href="https://browsersl.ist/"
+                className="text-blue-500 underline"
+                target="_blank"
+                rel="noreferrer"
+              >
+                BrowserList
+              </a>
+            </div>
+            <div className="pro-tip-wrapper flex justify-center  w-full">
+              <div className="pro-tip bg-gray-100 w-96 mt-10 rounded-lg p-4">
+                <div className="flex justify-between items-center">
+                  Tip - Try BrowserList string:  <AiFillBulb className="text-yellow-300 text-xl" />
+                </div>
+                <div className='italic pt-5'> </div> 
+
+                <div className='text-lg mt-5'>{tipBrowserList[Math.floor(Math.random() * tipBrowserList.length)]}</div>
+              </div>
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
       </section>
       <Footer />
     </>

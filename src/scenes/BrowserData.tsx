@@ -14,7 +14,10 @@ const BrowserData = (props: Props) => {
   const [isConstituentsExpanded, setConstituentsExpanded] = useState(false);
 
   const expandConstituents = useCallback(() => {
-    setConstituentsExpanded((prev) => !prev);
+    var isDesktop = document.documentElement.clientWidth > 770;
+    if (!isDesktop) {
+      setConstituentsExpanded((prev) => !prev);
+    }
   }, []);
 
   return (
@@ -25,7 +28,7 @@ const BrowserData = (props: Props) => {
     >
       {isBrowserDataExists ? (
         <div
-          className="text-xl pl-2 flex justify-between items-center pb-1 md:pb-2"
+          className="text-md md:text-xl pl-2 flex justify-between items-center pb-1 md:pb-2"
           onClick={expandConstituents}
         >
           Detected Browsers (Min. versions)

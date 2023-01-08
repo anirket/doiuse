@@ -4,6 +4,7 @@ import { apiConfig } from '../utils/apiConfig';
 import {
   Browserkeys,
   DatakeysforBrowserAvailable,
+  defaultErrorMessage,
   mapBrowserKeyToData,
 } from '../utils/constants';
 
@@ -60,7 +61,7 @@ export const filteredData = (
   browserListData: Record<string, string>
 ) => {
   if (userQuery.length === 0) {
-    return [];
+    return {};
   }
   const query = userQuery.toLocaleLowerCase();
   const getCompatibleDataKeys = Object.keys(compatibilityData);
@@ -114,7 +115,7 @@ export const getData = async () => {
     return getmodifiedData;
   } catch (error) {
     return {
-      error: (error as AxiosErroResponse).response.data.message,
+      apierror: ((error as AxiosErroResponse).response.data.message || defaultErrorMessage),
     };
   }
 };

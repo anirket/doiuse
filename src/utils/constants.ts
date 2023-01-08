@@ -5,6 +5,15 @@ export enum SpinnerType {
 
 export const defaultErrorMessage = 'Aww Snap! Something went Wrong!';
 
+export const tipBrowserList = [
+  '>= 5% in US',
+  'not dead',
+  'dead',
+  'not Firefox ESR',
+  'supports css-grid',
+  'defaults, not dead'
+]
+
 export enum Browserkeys {
   'Chrome for Android' = 'Chrome for Android',
   'Chrome' = 'Chrome',
