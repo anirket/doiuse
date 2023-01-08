@@ -33,8 +33,8 @@ export const validateBrowserlistString = async (inputString: string) => {
 };
 
 export const identifyBrowsersFromResponse = (data: BrowserResponse) => {
-    const restructureData = data.reduce((prev, curr) => Object.assign(prev, {
+    const restructuredData = data.reduce((prev, curr) => Object.assign(prev, {
         [curr.name]: Object.keys(curr.versions)[0].split('-')[0]
     }),{})
-    console.log(restructureData)
+    return restructuredData;
 };

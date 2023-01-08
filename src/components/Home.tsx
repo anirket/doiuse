@@ -9,6 +9,11 @@ const BrowserData = lazy(() => import('../scenes/BrowserData'));
 const Home = () => {
   const [onErrorMessage, setOnErrorMessage] = useState<string>('');
   const [isResultsLoading, setResultsLoading] = useState<boolean>(false);
+  const [responseData, setresponseData] = useState<{
+    browserListData: Record<string,string>,
+  }>({
+    browserListData: {},
+  });
 
   return (
     <>
@@ -16,10 +21,11 @@ const Home = () => {
         <InputForm
           setonErrorMessage={setOnErrorMessage}
           setResultsLoading={setResultsLoading}
+          setresponseData={setresponseData}
           isResultsLoading={isResultsLoading}
         />
         <Suspense fallback={<Loader type={SpinnerType.PageLoader} />}>
-          <BrowserData />
+          <BrowserData browserListData={responseData.browserListData} />
         </Suspense>
       </section>
       <Footer />

@@ -1,11 +1,19 @@
 import { Dispatch, SetStateAction, useCallback, useState } from 'react';
-import { identifyBrowsersFromResponse, validateBrowserlistString } from '../services/service';
+import {
+  identifyBrowsersFromResponse,
+  validateBrowserlistString,
+} from '../services/service';
 import { defaultErrorMessage, SpinnerType } from '../utils/constants';
 import Loader from '../utils/Loader';
 
 type Props = {
   setonErrorMessage: Dispatch<SetStateAction<string>>;
   setResultsLoading: Dispatch<SetStateAction<boolean>>;
+  setresponseData: Dispatch<
+    SetStateAction<{
+      browserListData: Record<string, string>;
+    }>
+  >;
   isResultsLoading: boolean;
 };
 
@@ -18,7 +26,12 @@ const InputForm = (props: Props) => {
     searchQuery: '',
   });
 
-  const { setonErrorMessage, isResultsLoading, setResultsLoading } = props;
+  const {
+    setonErrorMessage,
+    isResultsLoading,
+    setResultsLoading,
+    setresponseData,
+  } = props;
 
   const onInputChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,26 +47,31 @@ const InputForm = (props: Props) => {
     []
   );
 
-  const onSearch = useCallback(async() => {
+  const onSearch = useCallback(async () => {
     setResultsLoading(true);
     if (!inputData.browserList.length || !inputData.searchQuery.length) {
       setonErrorMessage('Please Enter all Inputs!');
       setResultsLoading(false);
       return;
     }
-    const getBrowserList = await validateBrowserlistString(inputData.browserList) 
-    console.log(getBrowserList);
-    if(getBrowserList?.error) {
-      setonErrorMessage(getBrowserList?.error || defaultErrorMessage)
+    const getBrowserList = await validateBrowserlistString(
+      inputData.browserList
+    );
+    if (getBrowserList?.error) {
+      setonErrorMessage(getBrowserList?.error || defaultErrorMessage);
       return;
     }
     const identifyBrowsers = identifyBrowsersFromResponse(getBrowserList);
-  }, [inputData, setonErrorMessage, setResultsLoading]);
+    setresponseData(prev => ({
+      ...prev,
+      browserListData: identifyBrowsers,
+    }));
+  }, [inputData, setonErrorMessage, setResultsLoading, setresponseData]);
 
   return (
     <div className="user-input">
       <div className="w-full md:flex justify-around gap-8 items-center">
-        <section className="md:w-1/2">
+        <section className="md:w-[70%]">
           <label className="text-sm pl-[3px]" htmlFor="section">
             Enter BrowserList String
           </label>
@@ -66,7 +84,7 @@ const InputForm = (props: Props) => {
             onChange={onInputChange}
           />
         </section>
-        <section className="md:w-1/2 mt-4 md:mt-0">
+        <section className="md:w-[30%]mt-4 md:mt-0">
           <label className="text-sm pl-[3px]" htmlFor="section">
             Search
           </label>
@@ -83,7 +101,11 @@ const InputForm = (props: Props) => {
           onClick={onSearch}
           className="p-[5px] flex justify-center px-4 mt-8 border-2 text-sm rounded-lg w-full md:h-[34px] md:w-[100px] md:min-w-[100px] relative hover:border-blue-500"
         >
-          {isResultsLoading ? <Loader type={SpinnerType.buttonLoader} />: <>Search</>}
+          {isResultsLoading ? (
+            <Loader type={SpinnerType.buttonLoader} />
+          ) : (
+            <>Search</>
+          )}
         </button>
       </div>
     </div>
