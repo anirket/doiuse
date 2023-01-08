@@ -3,8 +3,7 @@ import { FaSkull } from 'react-icons/fa';
 import Footer from '../scenes/Footer';
 import InputForm from '../scenes/InputForm';
 import { getData } from '../services/service';
-import { defaultErrorMessage, SpinnerType, tipBrowserList } from '../utils/constants';
-import Loader from '../utils/Loader';
+import { defaultErrorMessage, tipBrowserList } from '../utils/constants';
 import { AiFillBulb } from 'react-icons/ai';
 
 const BrowserData = lazy(() => import('../scenes/BrowserData'));
