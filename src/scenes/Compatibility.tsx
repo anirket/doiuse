@@ -18,7 +18,7 @@ const Compatibility = (props: Props) => {
   );
 
   return (
-    <section className="flex w-full flex-wrap justify-around">
+    <section className="flex w-full flex-wrap justify-around mb-10">
       {!Object.keys(getRelevantData).length && userQuery.length ? (
         <div className='flex w-full justify-center text-center mt-10'>No Results Found! Search something else :)</div>
       ) : <></>}

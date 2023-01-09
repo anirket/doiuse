@@ -24,20 +24,18 @@ const Home = () => {
 
   const getInfo = useCallback(async () => {
     try {
-    const getDataList = await getData();
-    if(getDataList?.apierror) {
-      setOnErrorMessage(defaultErrorMessage);
-      return;
-    }
-    setresponseData((prev) => ({
-      ...prev,
-      compatibilityData: getDataList,
-    }));
-      
+      const getDataList = await getData();
+      if (getDataList?.apierror) {
+        setOnErrorMessage(defaultErrorMessage);
+        return;
+      }
+      setresponseData((prev) => ({
+        ...prev,
+        compatibilityData: getDataList,
+      }));
     } catch (error) {
       setOnErrorMessage(defaultErrorMessage);
     }
-    
   }, []);
 
   useEffect(() => {
@@ -55,7 +53,7 @@ const Home = () => {
         />
         {onErrorMessage.length ? (
           <div className="w-full flex justify-center pt-10 text-center flex-col items-center">
-            <FaSkull className='text-red-500' />
+            <FaSkull className="text-red-500" />
             <span className="mt-5 text-red-400">{onErrorMessage}</span>
           </div>
         ) : (
@@ -68,25 +66,35 @@ const Home = () => {
         )}
         {!responseData.userQuery.length ? (
           <>
-            <div className="flex justify-center text-center mt-10">
-              Dont know what Browserlist is ? checkout &nbsp;{' '}
-              <a
-                href="https://browsersl.ist/"
-                className="text-blue-500 underline"
-                target="_blank"
-                rel="noreferrer"
-              >
-                BrowserList
-              </a>
+            <div className="text-center mt-10">
+              Dont know what Browserlist is?
+              <div>
+                checkout &nbsp;
+                <a
+                  href="https://browsersl.ist/"
+                  className="text-blue-500 underline"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  BrowserList
+                </a>
+              </div>
             </div>
             <div className="pro-tip-wrapper flex justify-center  w-full">
               <div className="pro-tip bg-gray-100 w-96 mt-10 rounded-lg p-4">
                 <div className="flex justify-between items-center">
-                  Tip - Try BrowserList string:  <AiFillBulb className="text-yellow-300 text-xl" />
+                  Tip - Try BrowserList string:{' '}
+                  <AiFillBulb className="text-yellow-300 text-xl" />
                 </div>
-                <div className='italic pt-5'> </div> 
+                <div className="italic pt-5"> </div>
 
-                <div className='text-lg mt-5'>{tipBrowserList[Math.floor(Math.random() * tipBrowserList.length)]}</div>
+                <div className="text-lg mt-5">
+                  {
+                    tipBrowserList[
+                      Math.floor(Math.random() * tipBrowserList.length)
+                    ]
+                  }
+                </div>
               </div>
             </div>
           </>
